@@ -201,6 +201,12 @@ function scene:show( event )
         physics.addBody(frame_left, "static", {friction = 0.0, bounce = 0.3})
         physics.addBody(frame_right, "static", {friction = 0.0, bounce = 0.3})
     end
+    local height_from_bottom = -100
+    local yPos = display.contentCenterX + display.contentCenterY + height_from_bottom
+    local text_render = display.newText("Shakira's Behavior Jar", display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 16)
+    text_render:setFillColor(100 / 255, 25 / 255, 120 / 255)
+    text_render.x = rightX - screenW + 100
+    text_render.y = yPos + 2
 end
 
 function onTick(event)
