@@ -8,6 +8,9 @@ local widget = require("widget")
 local coin_count
 local onTick
 local coins = {}
+
+local coindrop = audio.loadSound("coindrop.mp3")
+
 function scene:create( event )
     coins = {["coins"] = {}}
     coins["coins"][1] = {["total"] = 0}
@@ -65,6 +68,7 @@ function scene:create( event )
         end,
         onRelease = function()
             AddCoin(1)
+            audio.play(coindrop)
             transition.to(add_button, {time = 200, xScale = x_scale, yScale = y_scale})
         end
     })
@@ -136,8 +140,8 @@ end
 
 coin_count = display.newText("", display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 120 )
 coin_count:setFillColor(1, 1, 1)
-coin_count.x = display.viewableContentWidth / 2
-coin_count.y = display.viewableContentHeight / 2
+coin_count.x = display.viewableContentWidth / 2 - 220
+coin_count.y = display.viewableContentHeight / 2 - 100
 coin_count.alpha = 0.20
 coin_count.isVisible = false
 
