@@ -21,7 +21,9 @@ settings =
 
 	excludeFiles =
 	{
-		all = {"Icon.png", "Icon-*dpi.png", "Images.xcassets",},
-		android = {"LaunchScreen.storyboardc",},
+		all = {
+			"Sothlink Project Files/*.lmk",
+			"README.md"
+		},
 	},
 }

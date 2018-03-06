@@ -5,6 +5,7 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
+local sounds = require("assets.libraries.sounds")
 
 local topY = display.screenOriginY
 local bottomY = display.contentHeight - display.screenOriginY
@@ -19,7 +20,6 @@ local onTick
 local jar
 local coins = {}
 local objects = {}
-local coindrop = audio.loadSound("coindrop.mp3")
 local physics = require( "physics" )
 physics.start()
 
@@ -54,7 +54,7 @@ function scene:create( event )
     local add_button
     local subtract_button
     -- ========== SCENE FRAME ========== --
-    -- x1, y1, x2, y2
+    local frame_group = display.newGroup()
     local r, g, b = 100 / 255, 25 / 255, 120 / 255
     local strokeWidth = 10
     local Y_top = display.newLine(leftX + screenW, topY, rightX - screenW, topY)
@@ -76,6 +76,14 @@ function scene:create( event )
     X_left.strokeWidth = X_right.strokeWidth
     X_left:setStrokeColor(r, g, b)
     physics.addBody(X_left, "static", {friction = 0.5, bounce = 0.3})
+
+    -- frame_group:insert(Y_top)
+    -- frame_group:insert(Y_Bottom)
+    -- frame_group:insert(X_right)
+    -- frame_group:insert(X_left)
+    -- frame_group.strokeWidth = 50
+    -- frame_group:setStrokeColor(r, g, b)
+    -- physics.addBody(frame_group, "static", {friction = 0.5, bounce = 0.3})
 
     -- ========== SCENE BACKGROUND ========== --
     background = display.newImage(sceneGroup, "assets/backgrounds/background.png")
@@ -100,7 +108,7 @@ function scene:create( event )
         end,
         onRelease = function()
             AddCoin(1)
-            audio.play(coindrop)
+            sounds.play("coindrop" .. math.random(1, 6))
             transition.to(add_button, {time = 100, xScale = x_scale, yScale = y_scale})
         end
     })
@@ -116,6 +124,7 @@ function scene:create( event )
         end,
         onRelease = function()
             SubtractCoin(1)
+            sounds.play("takeaway")
             transition.to(subtract_button, {time = 100, xScale = x_scale, yScale = y_scale})
         end
     })
@@ -159,6 +168,7 @@ function SubtractCoin(number)
             count = #objects
         end
     end
+    saveCoins(count)
 end
 
 function scene:show( event )
