@@ -14,6 +14,7 @@ local screenW = rightX - leftX
 local screenH = bottomY - topY
 
 local coin_count
+local count
 local onTick
 local jar
 local coins = {}
@@ -25,6 +26,30 @@ physics.start()
 function scene:create( event )
     coins = {["coins"] = {}}
     coins["coins"][1] = {["total"] = 0}
+    count = loadCoins()
+    coin_count = display.newText(count, display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 22 )
+    coin_count:setFillColor(139 / 255, 69 / 255, 19 / 255)
+    coin_count.x = display.viewableContentWidth / 2 - 220
+    coin_count.y = display.viewableContentHeight / 2 - 130
+    coin_count.alpha = 0.20
+    if count ~= 0 and count ~= nil then
+        for i = 1, count do
+            local coin_img = {"1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "10.png"}
+            local img = coin_img[math.random(1, #coin_img)]
+            objects[#objects + 1] = display.newImage("assets/coins/" .. img, display.contentCenterX, display.contentCenterY - 100)
+            coin_img = objects[#objects]
+            coin_img.width = 34
+            coin_img.height = 34
+            coin_img.rotation = math.random(0, 360)
+            physics.addBody(coin_img, {density = 1.0, friction = 1.0, bounce = 0.5})
+            for k, v in pairs(coins["coins"]) do
+                if v.total >= 0 then
+                    coins["coins"][k].total = coins["coins"][k].total + 1
+                    count = #objects
+                end
+            end
+        end
+    end
     local sceneGroup = self.view
     local add_button
     local subtract_button
@@ -117,6 +142,7 @@ function AddCoin(number)
             count = #objects
         end
     end
+    saveCoins(count)
 end
 
 function SubtractCoin(number)
@@ -193,12 +219,25 @@ function scene:hide( event )
     end
 end
 
-coin_count = display.newText("", display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 22 )
-coin_count:setFillColor(139 / 255, 69 / 255, 19 / 255)
-coin_count.x = display.viewableContentWidth / 2 - 220
-coin_count.y = display.viewableContentHeight / 2 - 130
-coin_count.alpha = 0.20
-coin_count.isVisible = false
+function loadCoins()
+    local path = system.pathForFile("coins.txt", system.DocumentsDirectory)
+    local file = io.open ( path, "r" )
+    local sum
+    if file == nil then return 0 end
+    local contents = file:read( "*a" )
+    file:close()
+    for i = 1, string.len(contents) do sum = tonumber(contents) end
+    if sum == 0 then sum = 0 elseif sum == nil then sum = 0 end
+    return sum
+end
+
+function saveCoins(c)
+    local path = system.pathForFile( "coins.txt", system.DocumentsDirectory )
+    local file = io.open (path, "w")
+    local contents = tostring(c)
+    file:write(contents)
+    file:close( )
+end
 
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
