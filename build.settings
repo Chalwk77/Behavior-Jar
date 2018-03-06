@@ -1,0 +1,27 @@
+settings =
+{
+	orientation =
+	{
+		default = "landscapeRight",
+		supported = { "landscapeRight", },
+	},
+
+	android =
+	{
+		usesPermissions =
+		{
+			"android.permission.INTERNET",
+		},
+	},
+
+	plugins =
+	{
+
+	},
+
+	excludeFiles =
+	{
+		all = {"Icon.png", "Icon-*dpi.png", "Images.xcassets",},
+		android = {"LaunchScreen.storyboardc",},
+	},
+}
