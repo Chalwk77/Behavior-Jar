@@ -23,6 +23,12 @@ local objects = {}
 local physics = require( "physics" )
 physics.start()
 
+physics_paramaters = {
+    density = 5.0,
+    friction = 0.3,
+    bounce = 0.5
+}
+
 function scene:create( event )
     coins = {["coins"] = {}}
     coins["coins"][1] = {["total"] = 0}
@@ -41,7 +47,10 @@ function scene:create( event )
             coin_img.width = 34
             coin_img.height = 34
             coin_img.rotation = math.random(0, 360)
-            physics.addBody(coin_img, {density = 1.0, friction = 1.0, bounce = 0.5})
+            coin_img.linearDamping = 0.10
+            coin_img.angularDamping = 0.6
+            coin_img.rotation = math.random( 1, 360 )
+            physics.addBody(coin_img, physics_paramaters)
             for k, v in pairs(coins["coins"]) do
                 if v.total >= 0 then
                     coins["coins"][k].total = coins["coins"][k].total + 1
@@ -143,8 +152,10 @@ function AddCoin(number)
     local coin = objects[#objects]
     coin.width = 34
     coin.height = 34
-    coin.rotation = math.random(0, 360)
-    physics.addBody(coin, {density = 1.0, friction = 1.0, bounce = 0.5})
+    physics.addBody(coin, physics_paramaters)
+    coin.linearDamping = 0.10
+    coin.angularDamping = 0.6
+    coin.rotation = math.random( 1, 360 )
     for k, v in pairs(coins["coins"]) do
         if v.total >= 0 then
             coins["coins"][k].total = coins["coins"][k].total + number
@@ -196,11 +207,11 @@ function scene:show( event )
         frame_bottom.isVisible = hide
 
         local top_pos = 90
-        local frame_top = display.newLine(leftX + screenW - 330, topY + top_pos, rightX - screenW + 184, topY + top_pos)
+        local frame_top = display.newLine(leftX + screenW - 300, topY + top_pos - 90, rightX - screenW + 184, topY + top_pos)
         frame_top.strokeWidth = 5
         frame_top:setStrokeColor(0, 0, 0)
         frame_top.isVisible = hide
-        local frame_top2 = display.newLine(leftX + screenW - 184, topY + top_pos, rightX - screenW + 330, topY + top_pos)
+        local frame_top2 = display.newLine(leftX + screenW - 184, topY + top_pos, rightX - screenW + 300, topY + top_pos - 90)
         frame_top2.strokeWidth = 5
         frame_top2:setStrokeColor(0, 0, 0)
         frame_top2.isVisible = hide
@@ -213,9 +224,9 @@ function scene:show( event )
     end
     local height_from_bottom = -100
     local yPos = display.contentCenterX + display.contentCenterY + height_from_bottom
-    local text_render = display.newText("Shakira's Behavior Jar", display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 16)
+    local text_render = display.newText("Shakira's Behavior Jar", display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 14)
     text_render:setFillColor(100 / 255, 25 / 255, 120 / 255)
-    text_render.x = rightX - screenW + 100
+    text_render.x = rightX - screenW + 95
     text_render.y = yPos + 2
 end
 

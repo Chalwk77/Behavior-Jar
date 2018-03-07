@@ -4,12 +4,12 @@ media.isSoundOn = true
 media.isMusicOn = true
 
 local sounds = {
-    coindrop1 = '/assets/sounds/coindrop1.wav',
-    coindrop2 = '/assets/sounds/coindrop2.wav',
-    coindrop3 = '/assets/sounds/coindrop3.wav',
-    coindrop4 = '/assets/sounds/coindrop4.wav',
-    coindrop5 = '/assets/sounds/coindrop5.wav',
-    coindrop6 = '/assets/sounds/coindrop6.wav',
+    coindrop1 = '/assets/sounds/coindrop1.mp3',
+    coindrop2 = '/assets/sounds/coindrop2.mp3',
+    coindrop3 = '/assets/sounds/coindrop3.mp3',
+    coindrop4 = '/assets/sounds/coindrop4.mp3',
+    coindrop5 = '/assets/sounds/coindrop5.mp3',
+    coindrop6 = '/assets/sounds/coindrop6.mp3',
     takeaway = '/assets/sounds/takeaway.wav'
 }
 
