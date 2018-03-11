@@ -254,7 +254,7 @@ function loadCoins()
     local contents = file:read( "*a" )
     file:close()
     for i = 1, string.len(contents) do sum = tonumber(contents) end
-    if sum == 0 then sum = 0 elseif sum == nil then sum = 0 end
+    if sum == 0 or sum == nil then sum = 0 end
     return sum
 end
 
